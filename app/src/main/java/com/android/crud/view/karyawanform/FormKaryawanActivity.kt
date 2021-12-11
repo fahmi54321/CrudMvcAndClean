@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import com.android.crud.BuildConfig
 import com.android.crud.constant.Constants
 import com.android.crud.databinding.ActivityFormKaryawanBinding
@@ -21,74 +22,20 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class FormKaryawanActivity : AppCompatActivity() {
+class FormKaryawanActivity : AppCompatActivity(), FormKaryawanMvcView.Listener {
 
-    private lateinit var binding: ActivityFormKaryawanBinding
     private lateinit var restApi: RestApi
     private lateinit var compositeDisposable: CompositeDisposable
+    private lateinit var viewMvc: FormKaryawanMvcView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityFormKaryawanBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        viewMvc = FormKaryawanMvcView(LayoutInflater.from(this))
+        setContentView(viewMvc.binding.root)
 
         restApi = provideHttpAdapter().create(RestApi::class.java)
         compositeDisposable = CompositeDisposable()
 
-        binding.btnSimpan.setOnClickListener {
-            var nama = binding.edtNama.text.toString()
-            var email = binding.edtEmail.text.toString()
-            var alamat = binding.edtAlamat.text.toString()
-            if (nama.isNullOrEmpty()){
-                dialogFieldKosong("nama kosong")
-            }else if (email.isNullOrEmpty()){
-                dialogFieldKosong("email kosong")
-            }else if (alamat.isNullOrEmpty()){
-                dialogFieldKosong("alamat kosong")
-            }else {
-                saveKaryawan(nama, email, alamat)
-            }
-        }
-
-    }
-
-    private fun saveKaryawan(nama: String, email: String, alamat: String) {
-        showProgressIndication()
-        compositeDisposable.add(
-            restApi.addKaryawan(nama, email, alamat)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    if (it.meta?.code == 200){
-                        dialogSuksesRegister(it.meta.message?:"","create")
-                        hideProgressIndication()
-                    }
-                    hideProgressIndication()
-                }, {
-                    getKaryawanDetailsFailed(it)
-                    hideProgressIndication()
-                })
-        )
-    }
-
-    private fun getKaryawanDetailsFailed(throwable: Throwable) {
-        supportFragmentManager.beginTransaction()
-            .add(ServerErrorDialogFragment.newInstance(throwable), null)
-            .commitAllowingStateLoss()
-    }
-
-    private fun dialogSuksesRegister(message:String,aksi:String) {
-        supportFragmentManager.beginTransaction()
-            .add(SuksesDialogFragment.newInstance(message, aksi), null)
-            .commitAllowingStateLoss()
-    }
-
-    private fun showProgressIndication() {
-        binding.btnSimpan.text = "Loading"
-    }
-
-    private fun hideProgressIndication() {
-        binding.btnSimpan.text = "Simpan"
     }
 
     private fun dialogFieldKosong(item: String) {
@@ -97,9 +44,55 @@ class FormKaryawanActivity : AppCompatActivity() {
             .commitAllowingStateLoss()
     }
 
+
+    private fun saveKaryawan(nama: String, email: String, alamat: String) {
+        viewMvc.showProgressIndication()
+        compositeDisposable.add(
+            restApi.addKaryawan(nama, email, alamat)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    if (it.meta?.code == 200) {
+                        dialogSuksesRegister(it.meta.message ?: "", "create")
+                        viewMvc.hideProgressIndication()
+                    }
+                    viewMvc.hideProgressIndication()
+                }, {
+                    getKaryawanDetailsFailed(it)
+                    viewMvc.hideProgressIndication()
+                })
+        )
+    }
+
+    override fun onSaveKaryawan(nama: String, email: String, alamat: String) {
+        saveKaryawan(nama, email, alamat)
+    }
+
+    override fun onDialogFieldKosong(message: String) {
+        dialogFieldKosong(message)
+    }
+
+    private fun getKaryawanDetailsFailed(throwable: Throwable) {
+        supportFragmentManager.beginTransaction()
+            .add(ServerErrorDialogFragment.newInstance(throwable), null)
+            .commitAllowingStateLoss()
+    }
+
+    private fun dialogSuksesRegister(message: String, aksi: String) {
+        supportFragmentManager.beginTransaction()
+            .add(SuksesDialogFragment.newInstance(message, aksi), null)
+            .commitAllowingStateLoss()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewMvc.registerListener(this)
+    }
+
     override fun onStop() {
         super.onStop()
         compositeDisposable.clear()
+        viewMvc.unRegisterListener(this)
     }
 
     private fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
