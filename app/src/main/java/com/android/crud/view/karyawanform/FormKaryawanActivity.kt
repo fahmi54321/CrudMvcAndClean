@@ -24,17 +24,17 @@ import java.util.concurrent.TimeUnit
 
 class FormKaryawanActivity : AppCompatActivity(), FormKaryawanMvcView.Listener {
 
-    private lateinit var restApi: RestApi
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var viewMvc: FormKaryawanMvcView
+    private lateinit var formKaryawanUserCase: FormKaryawanUserCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewMvc = FormKaryawanMvcView(LayoutInflater.from(this))
         setContentView(viewMvc.binding.root)
 
-        restApi = provideHttpAdapter().create(RestApi::class.java)
         compositeDisposable = CompositeDisposable()
+        formKaryawanUserCase = FormKaryawanUserCase(compositeDisposable)
 
     }
 
@@ -44,24 +44,18 @@ class FormKaryawanActivity : AppCompatActivity(), FormKaryawanMvcView.Listener {
             .commitAllowingStateLoss()
     }
 
-
     private fun saveKaryawan(nama: String, email: String, alamat: String) {
         viewMvc.showProgressIndication()
-        compositeDisposable.add(
-            restApi.addKaryawan(nama, email, alamat)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    if (it.meta?.code == 200) {
-                        dialogSuksesRegister(it.meta.message ?: "", "create")
-                        viewMvc.hideProgressIndication()
-                    }
-                    viewMvc.hideProgressIndication()
-                }, {
-                    getKaryawanDetailsFailed(it)
-                    viewMvc.hideProgressIndication()
-                })
-        )
+        formKaryawanUserCase.registerKaryawan(nama, email, alamat, {
+            if (it.meta?.code == 200) {
+                dialogSuksesRegister(it.meta.message ?: "", "create")
+                viewMvc.hideProgressIndication()
+            }
+            viewMvc.hideProgressIndication()
+        }, {
+            getKaryawanDetailsFailed(it)
+            viewMvc.hideProgressIndication()
+        })
     }
 
     override fun onSaveKaryawan(nama: String, email: String, alamat: String) {
@@ -97,38 +91,6 @@ class FormKaryawanActivity : AppCompatActivity(), FormKaryawanMvcView.Listener {
         super.onStop()
         compositeDisposable.clear()
         viewMvc.unRegisterListener(this)
-    }
-
-    private fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().apply {
-            level = when (BuildConfig.DEBUG) {
-                true -> HttpLoggingInterceptor.Level.BODY
-                false -> HttpLoggingInterceptor.Level.NONE
-            }
-        }
-    }
-
-    private fun provideHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder().apply {
-            retryOnConnectionFailure(true)
-            readTimeout(120, TimeUnit.SECONDS);
-            connectTimeout(120, TimeUnit.SECONDS);
-            writeTimeout(120, TimeUnit.SECONDS);
-            addInterceptor(provideHttpLoggingInterceptor())
-        }.build()
-    }
-
-    fun provideHttpAdapter(): Retrofit {
-
-        var constant: Constants? = null
-        constant = Constants()
-
-        return Retrofit.Builder().apply {
-            client(provideHttpClient())
-            baseUrl(constant.URL)
-            addConverterFactory(GsonConverterFactory.create())
-            addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-        }.build()
     }
 
     companion object {
