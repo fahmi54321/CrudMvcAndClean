@@ -1,5 +1,6 @@
 package com.android.crud.common.composition
 
+import androidx.annotation.UiThread
 import com.android.crud.BuildConfig
 import com.android.crud.constant.Constants
 import com.android.crud.network.RestApi
@@ -14,10 +15,13 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
+@UiThread
 class AppCompositionRoot {
 
 
-    private var restApi = provideHttpAdapter().create(RestApi::class.java)
+    private val restApi:RestApi by lazy {
+        retrofit.create(RestApi::class.java)
+    }
 
     fun main(compositeDisposable: CompositeDisposable): MainUseCase {
         return MainUseCase(compositeDisposable, restApi)
@@ -50,12 +54,11 @@ class AppCompositionRoot {
         }.build()
     }
 
-    fun provideHttpAdapter(): Retrofit {
 
+    private val retrofit : Retrofit by lazy {
         var constant: Constants? = null
         constant = Constants()
-
-        return Retrofit.Builder().apply {
+        Retrofit.Builder().apply {
             client(provideHttpClient())
             baseUrl(constant.URL)
             addConverterFactory(GsonConverterFactory.create())
