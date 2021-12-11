@@ -9,8 +9,6 @@ import com.android.crud.databinding.ActivityMainBinding
 import com.android.crud.model.DataItem
 import com.android.crud.model.ResponseKaryawan
 import com.android.crud.view.karyawandetails.DetailsActivity
-import com.android.crud.view.karyawanform.FormKaryawanActivity
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class MainActivityViewMvc(
     private val layoutInflater: LayoutInflater
