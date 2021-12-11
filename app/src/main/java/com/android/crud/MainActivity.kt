@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //init recycler view
+        //initt recycler view
         binding.rvKaryawan.layoutManager = LinearLayoutManager(this)
         karyawanAdapter = KaryawanAdapter(object : KaryawanAdapter.onClickListener {
             override fun itemClick(item: DataItem) {
