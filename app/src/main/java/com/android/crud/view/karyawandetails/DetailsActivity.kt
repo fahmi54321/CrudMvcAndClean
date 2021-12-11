@@ -4,10 +4,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.view.LayoutInflater
 import com.android.crud.BuildConfig
 import com.android.crud.constant.Constants
-import com.android.crud.databinding.ActivityDetailsBinding
 import com.android.crud.dialog.ServerErrorDialogFragment
 import com.android.crud.network.RestApi
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -22,19 +21,18 @@ import java.util.concurrent.TimeUnit
 
 class DetailsActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityDetailsBinding
     private lateinit var restApi: RestApi
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var id:String
+    private lateinit var viewMvc: DetailsViewMvc
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDetailsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        viewMvc = DetailsViewMvc(LayoutInflater.from(this))
+        setContentView(viewMvc.binding.root)
 
         restApi = provideHttpAdapter().create(RestApi::class.java)
         compositeDisposable = CompositeDisposable()
-
 
         id = intent.getStringExtra(EXTRA_ID)!!
     }
@@ -50,21 +48,19 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     private fun getDetailsKaryawan(){
-        showProgressIndication()
+        viewMvc.showProgressIndication()
         compositeDisposable.add(
             restApi.getDetailsKaryawan(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    hideProgressIndication()
+                    viewMvc.hideProgressIndication()
                     for (x in it.data.indices){
-                        binding.txtAlamat.text = it.data.get(x).alamat
-                        binding.txtEmail.text = it.data.get(x).email
-                        binding.txtNama.text = it.data.get(x).nama
+                        viewMvc.bindDetails(it.data.get(x))
                     }
                 },{
                     getKaryawanDetailsFailed(it)
-                    hideProgressIndication()
+                    viewMvc.hideProgressIndication()
                 })
         )
     }
@@ -73,14 +69,6 @@ class DetailsActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .add(ServerErrorDialogFragment.newInstance(throwable), null)
             .commitAllowingStateLoss()
-    }
-
-    private fun showProgressIndication() {
-        binding.progressBar.visibility = View.VISIBLE
-    }
-
-    private fun hideProgressIndication() {
-        binding.progressBar.visibility = View.GONE
     }
 
     private fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
