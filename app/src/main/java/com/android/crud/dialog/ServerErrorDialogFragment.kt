@@ -6,20 +6,20 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.android.crud.R
 
-class ServerErrorDialogFragment(private val throwable: Throwable) : DialogFragment() {
+class ServerErrorDialogFragment(private val message: String) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(activity).let {
-            it.setTitle(R.string.server_error_dialog_title)
-            it.setMessage("$throwable")
+            it.setTitle(R.string.alert_dialog_title)
+            it.setMessage("$message")
             it.setPositiveButton(R.string.server_error_dialog_button_caption) { _, _ -> dismiss() }
             it.create()
         }
     }
 
     companion object {
-        fun newInstance(throwable: Throwable): ServerErrorDialogFragment {
-            return ServerErrorDialogFragment(throwable)
+        fun newInstance(message: String): ServerErrorDialogFragment {
+            return ServerErrorDialogFragment(message)
         }
     }
 }

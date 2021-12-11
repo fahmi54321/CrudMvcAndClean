@@ -13,6 +13,7 @@ import com.android.crud.dialog.FieldKosongDialogFragment
 import com.android.crud.dialog.ServerErrorDialogFragment
 import com.android.crud.dialog.SuksesDialogFragment
 import com.android.crud.network.RestApi
+import com.android.crud.view.common.dialog.DialogsNavigator
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -28,6 +29,7 @@ class FormKaryawanActivity : AppCompatActivity(), FormKaryawanMvcView.Listener {
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var viewMvc: FormKaryawanMvcView
     private lateinit var formKaryawanUserCase: FormKaryawanUserCase
+    private lateinit var dialogsNavigator: DialogsNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,14 +37,13 @@ class FormKaryawanActivity : AppCompatActivity(), FormKaryawanMvcView.Listener {
         setContentView(viewMvc.binding.root)
 
         compositeDisposable = CompositeDisposable()
+        dialogsNavigator = DialogsNavigator(supportFragmentManager)
         formKaryawanUserCase = (application as MyApplication).form(compositeDisposable)
 
     }
 
     private fun dialogFieldKosong(item: String) {
-        supportFragmentManager.beginTransaction()
-            .add(FieldKosongDialogFragment.newInstance(item), null)
-            .commitAllowingStateLoss()
+        dialogsNavigator.showAlertMessage(item)
     }
 
     private fun saveKaryawan(nama: String, email: String, alamat: String) {
@@ -72,15 +73,11 @@ class FormKaryawanActivity : AppCompatActivity(), FormKaryawanMvcView.Listener {
     }
 
     private fun getKaryawanDetailsFailed(throwable: Throwable) {
-        supportFragmentManager.beginTransaction()
-            .add(ServerErrorDialogFragment.newInstance(throwable), null)
-            .commitAllowingStateLoss()
+        dialogsNavigator.showAlertMessage(throwable.message.toString())
     }
 
     private fun dialogSuksesRegister(message: String, aksi: String) {
-        supportFragmentManager.beginTransaction()
-            .add(SuksesDialogFragment.newInstance(message, aksi), null)
-            .commitAllowingStateLoss()
+        dialogsNavigator.showSuksesDialog(message, aksi)
     }
 
     override fun onStart() {

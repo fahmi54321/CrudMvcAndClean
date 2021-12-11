@@ -9,6 +9,7 @@ import com.android.crud.MyApplication
 import com.android.crud.dialog.ServerErrorDialogFragment
 import com.android.crud.dialog.SuksesDialogFragment
 import com.android.crud.model.DataItem
+import com.android.crud.view.common.dialog.DialogsNavigator
 import com.android.crud.view.karyawanform.FormKaryawanActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity(), MainActivityViewMvc.Listener {
     private lateinit var viewMvc: MainActivityViewMvc
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var mainUseCase: MainUseCase
+    private lateinit var dialogsNavigator: DialogsNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +26,7 @@ class MainActivity : AppCompatActivity(), MainActivityViewMvc.Listener {
         setContentView(viewMvc.binding.root)
 
         compositeDisposable = CompositeDisposable()
+        dialogsNavigator = DialogsNavigator(supportFragmentManager)
         mainUseCase = (application as MyApplication).main(compositeDisposable)
 
     }
@@ -72,15 +75,11 @@ class MainActivity : AppCompatActivity(), MainActivityViewMvc.Listener {
     }
 
     private fun getKaryawanFailed(throwable: Throwable) {
-        supportFragmentManager.beginTransaction()
-            .add(ServerErrorDialogFragment.newInstance(throwable), null)
-            .commitAllowingStateLoss()
+        dialogsNavigator.showAlertMessage(throwable.message.toString())
     }
 
     private fun suksesDialog(message: String, aksi: String) {
-        supportFragmentManager.beginTransaction()
-            .add(SuksesDialogFragment.newInstance(message, aksi), null)
-            .commitAllowingStateLoss()
+        dialogsNavigator.showSuksesDialog(message, aksi)
     }
 
 

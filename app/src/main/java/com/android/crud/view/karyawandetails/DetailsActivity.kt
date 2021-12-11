@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import com.android.crud.MyApplication
 import com.android.crud.dialog.ServerErrorDialogFragment
+import com.android.crud.view.common.dialog.DialogsNavigator
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class DetailsActivity : AppCompatActivity(), DetailsViewMvc.Listener {
@@ -16,6 +17,7 @@ class DetailsActivity : AppCompatActivity(), DetailsViewMvc.Listener {
     private lateinit var id: String
     private lateinit var viewMvc: DetailsViewMvc
     private lateinit var detailsUseCase: DetailsUseCase
+    private lateinit var dialogsNavigator: DialogsNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +25,7 @@ class DetailsActivity : AppCompatActivity(), DetailsViewMvc.Listener {
         setContentView(viewMvc.binding.root)
 
         compositeDisposable = CompositeDisposable()
+        dialogsNavigator = DialogsNavigator(supportFragmentManager)
         detailsUseCase = (application as MyApplication).details(compositeDisposable)
 
         id = intent.getStringExtra(EXTRA_ID)!!
@@ -54,15 +57,12 @@ class DetailsActivity : AppCompatActivity(), DetailsViewMvc.Listener {
     }
 
     private fun getKaryawanDetailsFailed(throwable: Throwable) {
-        supportFragmentManager.beginTransaction()
-            .add(ServerErrorDialogFragment.newInstance(throwable), null)
-            .commitAllowingStateLoss()
+        dialogsNavigator.showAlertMessage(throwable.message.toString())
     }
 
     override fun onBackClicked() {
         onBackPressed()
     }
-
 
     companion object {
         const val EXTRA_ID = "EXTRA_ID"
