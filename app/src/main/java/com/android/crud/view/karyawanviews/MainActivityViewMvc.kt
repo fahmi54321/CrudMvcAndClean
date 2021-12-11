@@ -8,28 +8,31 @@ import com.android.crud.databinding.ActivityMainBinding
 import com.android.crud.model.DataItem
 import com.android.crud.model.ResponseKaryawan
 import com.android.crud.view.common.BaseViewMvc
-import com.android.crud.view.karyawandetails.DetailsActivity
 
 class MainActivityViewMvc(
     layoutInflater: LayoutInflater
-):BaseViewMvc<MainActivityViewMvc.Listener,ActivityMainBinding>(
+) : BaseViewMvc<MainActivityViewMvc.Listener, ActivityMainBinding>(
     layoutInflater
 ) {
     interface Listener {
         fun onDeleteKaryawan(item: DataItem)
         fun goToFormKaryawan()
+        fun onDetailsActivity(id: String)
     }
 
     private var karyawanAdapter: KaryawanAdapter
+
     init {
         binding.rvKaryawan.layoutManager = LinearLayoutManager(context)
         karyawanAdapter = KaryawanAdapter(object : KaryawanAdapter.onClickListener {
             override fun itemClick(item: DataItem) {
-                DetailsActivity.start(context, item.id.toString())
+                for (listener in listeners) {
+                    listener.onDetailsActivity(item.id.toString())
+                }
             }
 
             override fun itemDelete(item: DataItem) {
-                for (listener in listeners){
+                for (listener in listeners) {
                     listener.onDeleteKaryawan(item)
                 }
             }
@@ -37,7 +40,7 @@ class MainActivityViewMvc(
         })
         binding.rvKaryawan.adapter = karyawanAdapter
         binding.fabAdd.setOnClickListener {
-            for (listener in listeners){
+            for (listener in listeners) {
                 listener.goToFormKaryawan()
             }
         }

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import com.android.crud.MyApplication
 import com.android.crud.dialog.ServerErrorDialogFragment
 import com.android.crud.view.common.dialog.DialogsNavigator
+import com.android.crud.view.common.navigator.ScreenNavigator
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class DetailsActivity : AppCompatActivity(), DetailsViewMvc.Listener {
@@ -18,6 +19,7 @@ class DetailsActivity : AppCompatActivity(), DetailsViewMvc.Listener {
     private lateinit var viewMvc: DetailsViewMvc
     private lateinit var detailsUseCase: DetailsUseCase
     private lateinit var dialogsNavigator: DialogsNavigator
+    private lateinit var screenNavigator: ScreenNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,7 @@ class DetailsActivity : AppCompatActivity(), DetailsViewMvc.Listener {
 
         compositeDisposable = CompositeDisposable()
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
+        screenNavigator = ScreenNavigator(this)
         detailsUseCase = (application as MyApplication).details(compositeDisposable)
 
         id = intent.getStringExtra(EXTRA_ID)!!
@@ -61,7 +64,7 @@ class DetailsActivity : AppCompatActivity(), DetailsViewMvc.Listener {
     }
 
     override fun onBackClicked() {
-        onBackPressed()
+        screenNavigator.onBackActivity()
     }
 
     companion object {

@@ -14,6 +14,7 @@ import com.android.crud.dialog.ServerErrorDialogFragment
 import com.android.crud.dialog.SuksesDialogFragment
 import com.android.crud.network.RestApi
 import com.android.crud.view.common.dialog.DialogsNavigator
+import com.android.crud.view.common.navigator.ScreenNavigator
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -30,6 +31,7 @@ class FormKaryawanActivity : AppCompatActivity(), FormKaryawanMvcView.Listener {
     private lateinit var viewMvc: FormKaryawanMvcView
     private lateinit var formKaryawanUserCase: FormKaryawanUserCase
     private lateinit var dialogsNavigator: DialogsNavigator
+    private lateinit var screenNavigator: ScreenNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,7 @@ class FormKaryawanActivity : AppCompatActivity(), FormKaryawanMvcView.Listener {
 
         compositeDisposable = CompositeDisposable()
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
+        screenNavigator = ScreenNavigator(this)
         formKaryawanUserCase = (application as MyApplication).form(compositeDisposable)
 
     }
@@ -69,7 +72,7 @@ class FormKaryawanActivity : AppCompatActivity(), FormKaryawanMvcView.Listener {
     }
 
     override fun onBackClicked() {
-        onBackPressed()
+        screenNavigator.onBackActivity()
     }
 
     private fun getKaryawanDetailsFailed(throwable: Throwable) {
