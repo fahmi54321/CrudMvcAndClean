@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import com.android.crud.BuildConfig
+import com.android.crud.MyApplication
 import com.android.crud.constant.Constants
 import com.android.crud.databinding.ActivityFormKaryawanBinding
 import com.android.crud.dialog.FieldKosongDialogFragment
@@ -34,7 +35,7 @@ class FormKaryawanActivity : AppCompatActivity(), FormKaryawanMvcView.Listener {
         setContentView(viewMvc.binding.root)
 
         compositeDisposable = CompositeDisposable()
-        formKaryawanUserCase = FormKaryawanUserCase(compositeDisposable)
+        formKaryawanUserCase = (application as MyApplication).form(compositeDisposable)
 
     }
 

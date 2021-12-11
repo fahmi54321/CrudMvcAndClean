@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import com.android.crud.MyApplication
 import com.android.crud.dialog.ServerErrorDialogFragment
 import com.android.crud.dialog.SuksesDialogFragment
 import com.android.crud.model.DataItem
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity(), MainActivityViewMvc.Listener {
         setContentView(viewMvc.binding.root)
 
         compositeDisposable = CompositeDisposable()
-        mainUseCase = MainUseCase(compositeDisposable)
+        mainUseCase = (application as MyApplication).main(compositeDisposable)
 
     }
 

@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import com.android.crud.MyApplication
 import com.android.crud.dialog.ServerErrorDialogFragment
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
@@ -22,7 +23,7 @@ class DetailsActivity : AppCompatActivity(), DetailsViewMvc.Listener {
         setContentView(viewMvc.binding.root)
 
         compositeDisposable = CompositeDisposable()
-        detailsUseCase = DetailsUseCase((compositeDisposable))
+        detailsUseCase = (application as MyApplication).details(compositeDisposable)
 
         id = intent.getStringExtra(EXTRA_ID)!!
     }
