@@ -13,6 +13,7 @@ import com.android.crud.dialog.FieldKosongDialogFragment
 import com.android.crud.dialog.ServerErrorDialogFragment
 import com.android.crud.dialog.SuksesDialogFragment
 import com.android.crud.network.RestApi
+import com.android.crud.view.common.activities.BaseActivity
 import com.android.crud.view.common.dialog.DialogsNavigator
 import com.android.crud.view.common.navigator.ScreenNavigator
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -25,7 +26,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class FormKaryawanActivity : AppCompatActivity(), FormKaryawanMvcView.Listener {
+class FormKaryawanActivity : BaseActivity(), FormKaryawanMvcView.Listener {
 
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var viewMvc: FormKaryawanMvcView
@@ -41,7 +42,7 @@ class FormKaryawanActivity : AppCompatActivity(), FormKaryawanMvcView.Listener {
         compositeDisposable = CompositeDisposable()
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
         screenNavigator = ScreenNavigator(this)
-        formKaryawanUserCase = (application as MyApplication).form(compositeDisposable)
+        formKaryawanUserCase = appCompositionRoot.form(compositeDisposable)
 
     }
 

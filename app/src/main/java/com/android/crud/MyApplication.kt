@@ -1,6 +1,7 @@
 package com.android.crud
 
 import android.app.Application
+import com.android.crud.common.composition.AppCompositionRoot
 import com.android.crud.constant.Constants
 import com.android.crud.network.RestApi
 import com.android.crud.view.karyawandetails.DetailsUseCase
@@ -16,54 +17,11 @@ import java.util.concurrent.TimeUnit
 
 class MyApplication() : Application() {
 
-    private var restApi = provideHttpAdapter().create(RestApi::class.java)
-
-    fun main(compositeDisposable: CompositeDisposable): MainUseCase {
-        return MainUseCase(compositeDisposable, restApi)
-    }
-
-    fun form(compositeDisposable: CompositeDisposable):FormKaryawanUserCase{
-        return FormKaryawanUserCase(compositeDisposable, restApi)
-    }
-
-    fun details(compositeDisposable: CompositeDisposable):DetailsUseCase{
-        return DetailsUseCase(compositeDisposable, restApi)
-    }
+    lateinit var appCompositionRoot: AppCompositionRoot
 
     override fun onCreate() {
+        appCompositionRoot = AppCompositionRoot()
         super.onCreate()
-    }
-
-    private fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().apply {
-            level = when (BuildConfig.DEBUG) {
-                true -> HttpLoggingInterceptor.Level.BODY
-                false -> HttpLoggingInterceptor.Level.NONE
-            }
-        }
-    }
-
-    private fun provideHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder().apply {
-            retryOnConnectionFailure(true)
-            readTimeout(120, TimeUnit.SECONDS);
-            connectTimeout(120, TimeUnit.SECONDS);
-            writeTimeout(120, TimeUnit.SECONDS);
-            addInterceptor(provideHttpLoggingInterceptor())
-        }.build()
-    }
-
-    fun provideHttpAdapter(): Retrofit {
-
-        var constant: Constants? = null
-        constant = Constants()
-
-        return Retrofit.Builder().apply {
-            client(provideHttpClient())
-            baseUrl(constant.URL)
-            addConverterFactory(GsonConverterFactory.create())
-            addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-        }.build()
     }
 
 }

@@ -7,12 +7,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import com.android.crud.MyApplication
 import com.android.crud.dialog.ServerErrorDialogFragment
+import com.android.crud.view.common.activities.BaseActivity
 import com.android.crud.view.common.dialog.DialogsNavigator
 import com.android.crud.view.common.navigator.ScreenNavigator
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-class DetailsActivity : AppCompatActivity(), DetailsViewMvc.Listener {
-
+class DetailsActivity : BaseActivity(), DetailsViewMvc.Listener {
 
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var id: String
@@ -29,7 +29,7 @@ class DetailsActivity : AppCompatActivity(), DetailsViewMvc.Listener {
         compositeDisposable = CompositeDisposable()
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
         screenNavigator = ScreenNavigator(this)
-        detailsUseCase = (application as MyApplication).details(compositeDisposable)
+        detailsUseCase = appCompositionRoot.details(compositeDisposable)
 
         id = intent.getStringExtra(EXTRA_ID)!!
     }

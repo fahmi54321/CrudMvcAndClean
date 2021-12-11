@@ -9,13 +9,14 @@ import com.android.crud.MyApplication
 import com.android.crud.dialog.ServerErrorDialogFragment
 import com.android.crud.dialog.SuksesDialogFragment
 import com.android.crud.model.DataItem
+import com.android.crud.view.common.activities.BaseActivity
 import com.android.crud.view.common.dialog.DialogsNavigator
 import com.android.crud.view.common.navigator.ScreenNavigator
 import com.android.crud.view.karyawandetails.DetailsActivity
 import com.android.crud.view.karyawanform.FormKaryawanActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-class MainActivity : AppCompatActivity(), MainActivityViewMvc.Listener {
+class MainActivity() : BaseActivity(), MainActivityViewMvc.Listener {
 
     private lateinit var viewMvc: MainActivityViewMvc
     private lateinit var compositeDisposable: CompositeDisposable
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity(), MainActivityViewMvc.Listener {
         compositeDisposable = CompositeDisposable()
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
         screenNavigator = ScreenNavigator(this)
-        mainUseCase = (application as MyApplication).main(compositeDisposable)
+        mainUseCase = appCompositionRoot.main(compositeDisposable)
 
     }
 
