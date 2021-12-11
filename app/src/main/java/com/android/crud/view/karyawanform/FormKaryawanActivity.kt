@@ -72,6 +72,10 @@ class FormKaryawanActivity : AppCompatActivity(), FormKaryawanMvcView.Listener {
         dialogFieldKosong(message)
     }
 
+    override fun onBackClicked() {
+        onBackPressed()
+    }
+
     private fun getKaryawanDetailsFailed(throwable: Throwable) {
         supportFragmentManager.beginTransaction()
             .add(ServerErrorDialogFragment.newInstance(throwable), null)

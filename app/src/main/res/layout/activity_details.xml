@@ -6,18 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".view.karyawandetails.DetailsActivity">
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/progressBar"></ProgressBar>
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="15dp"
         app:cardElevation="10dp"
         android:layout_margin="16dp">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/progressBar"></ProgressBar>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,5 +44,12 @@
                 android:text="Email" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:id="@+id/imgBack"
+        android:src="@drawable/ic_baseline_arrow_back_ios_new_24"></com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 </RelativeLayout>

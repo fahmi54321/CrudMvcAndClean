@@ -3,19 +3,19 @@ package com.android.crud.view.karyawanform
 import android.view.LayoutInflater
 import com.android.crud.databinding.ActivityFormKaryawanBinding
 import com.android.crud.dialog.FieldKosongDialogFragment
+import com.android.crud.view.common.BaseViewMvc
 
 class FormKaryawanMvcView(
-    private val layoutInflater: LayoutInflater
+    private val layoutInflater: LayoutInflater,
+):BaseViewMvc<FormKaryawanMvcView.Listener,ActivityFormKaryawanBinding>(
+    layoutInflater
 ) {
 
     interface Listener {
         fun onDialogFieldKosong(message: String)
         fun onSaveKaryawan(nama: String, email: String, alamat: String)
-
+        fun onBackClicked()
     }
-
-    var binding = ActivityFormKaryawanBinding.inflate(layoutInflater)
-    private val listeners = HashSet<Listener>()
 
     init {
         binding.btnSimpan.setOnClickListener {
@@ -40,14 +40,11 @@ class FormKaryawanMvcView(
                 }
             }
         }
-    }
-
-    fun registerListener(listener: Listener) {
-        listeners.add(listener)
-    }
-
-    fun unRegisterListener(listener: Listener) {
-        listeners.remove(listener)
+        binding.imgBack.setOnClickListener {
+            for (listener in listeners){
+                listener.onBackClicked()
+            }
+        }
     }
 
     fun showProgressIndication() {
@@ -57,4 +54,7 @@ class FormKaryawanMvcView(
     fun hideProgressIndication() {
         binding.btnSimpan.text = "Simpan"
     }
+
+    override val bind: (LayoutInflater) -> ActivityFormKaryawanBinding
+        get() = ActivityFormKaryawanBinding::inflate
 }

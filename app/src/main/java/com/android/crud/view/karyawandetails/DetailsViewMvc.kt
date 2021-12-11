@@ -4,12 +4,25 @@ import android.view.LayoutInflater
 import android.view.View
 import com.android.crud.databinding.ActivityDetailsBinding
 import com.android.crud.model.DataItem
+import com.android.crud.view.common.BaseViewMvc
 
 class DetailsViewMvc(
     private val layoutInflater: LayoutInflater
+):BaseViewMvc<DetailsViewMvc.Listener,ActivityDetailsBinding>(
+    layoutInflater
 ) {
 
-    var binding = ActivityDetailsBinding.inflate(layoutInflater)
+    interface Listener{
+        fun onBackClicked()
+    }
+
+    init {
+        binding.imgBack.setOnClickListener {
+            for (listener in listeners){
+                listener.onBackClicked()
+            }
+        }
+    }
 
     fun showProgressIndication() {
         binding.progressBar.visibility = View.VISIBLE
@@ -24,4 +37,7 @@ class DetailsViewMvc(
         binding.txtEmail.text = item.email
         binding.txtNama.text = item.nama
     }
+
+    override val bind: (LayoutInflater) -> ActivityDetailsBinding
+        get() = ActivityDetailsBinding::inflate
 }

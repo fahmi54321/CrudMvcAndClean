@@ -19,7 +19,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class DetailsActivity : AppCompatActivity() {
+class DetailsActivity : AppCompatActivity() ,DetailsViewMvc.Listener{
 
     private lateinit var restApi: RestApi
     private lateinit var compositeDisposable: CompositeDisposable
@@ -39,12 +39,14 @@ class DetailsActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        viewMvc.registerListener(this)
         getDetailsKaryawan()
     }
 
     override fun onStop() {
         super.onStop()
         compositeDisposable.clear()
+        viewMvc.unRegisterListener(this)
     }
 
     private fun getDetailsKaryawan(){
@@ -69,6 +71,10 @@ class DetailsActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .add(ServerErrorDialogFragment.newInstance(throwable), null)
             .commitAllowingStateLoss()
+    }
+
+    override fun onBackClicked() {
+        onBackPressed()
     }
 
     private fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
