@@ -1,9 +1,10 @@
-package com.android.crud
+package com.android.crud.view.karyawanform
 
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.android.crud.BuildConfig
 import com.android.crud.constant.Constants
 import com.android.crud.databinding.ActivityFormKaryawanBinding
 import com.android.crud.dialog.FieldKosongDialogFragment

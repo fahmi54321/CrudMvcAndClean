@@ -1,12 +1,12 @@
-package com.android.crud
+package com.android.crud.view.karyawanviews
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.crud.BuildConfig
 import com.android.crud.adapter.KaryawanAdapter
 import com.android.crud.constant.Constants
 import com.android.crud.databinding.ActivityMainBinding
@@ -14,6 +14,8 @@ import com.android.crud.dialog.ServerErrorDialogFragment
 import com.android.crud.dialog.SuksesDialogFragment
 import com.android.crud.model.DataItem
 import com.android.crud.network.RestApi
+import com.android.crud.view.karyawandetails.DetailsActivity
+import com.android.crud.view.karyawanform.FormKaryawanActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -40,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         binding.rvKaryawan.layoutManager = LinearLayoutManager(this)
         karyawanAdapter = KaryawanAdapter(object : KaryawanAdapter.onClickListener {
             override fun itemClick(item: DataItem) {
-                DetailsActivity.start(this@MainActivity,item.id.toString())
+                DetailsActivity.start(this@MainActivity, item.id.toString())
             }
 
             override fun itemDelete(item: DataItem) {

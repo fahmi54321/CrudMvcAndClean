@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Crud">
         <activity
-            android:name=".FormKaryawanActivity"
+            android:name=".view.karyawanform.FormKaryawanActivity"
             android:exported="false" />
         <activity
-            android:name=".DetailsActivity"
+            android:name=".view.karyawandetails.DetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.karyawanviews.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

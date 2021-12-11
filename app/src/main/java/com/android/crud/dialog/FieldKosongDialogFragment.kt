@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import com.android.crud.MainActivity
 import com.android.crud.R
 
 class FieldKosongDialogFragment(private val message: String) : DialogFragment() {

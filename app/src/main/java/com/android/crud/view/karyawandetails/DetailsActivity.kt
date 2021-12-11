@@ -1,10 +1,11 @@
-package com.android.crud
+package com.android.crud.view.karyawandetails
 
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.android.crud.BuildConfig
 import com.android.crud.constant.Constants
 import com.android.crud.databinding.ActivityDetailsBinding
 import com.android.crud.dialog.ServerErrorDialogFragment
