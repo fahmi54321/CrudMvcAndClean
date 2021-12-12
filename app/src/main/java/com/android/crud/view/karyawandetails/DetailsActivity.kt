@@ -28,8 +28,8 @@ class DetailsActivity : BaseActivity(), DetailsViewMvc.Listener {
 
         compositeDisposable = CompositeDisposable()
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
-        screenNavigator = ScreenNavigator(this)
-        detailsUseCase = appCompositionRoot.details(compositeDisposable)
+        screenNavigator = compositionRoot.screenNavigator
+        detailsUseCase = compositionRoot.details(compositeDisposable)
 
         id = intent.getStringExtra(EXTRA_ID)!!
     }

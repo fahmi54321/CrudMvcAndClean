@@ -31,8 +31,8 @@ class MainActivity() : BaseActivity(), MainActivityViewMvc.Listener {
 
         compositeDisposable = CompositeDisposable()
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
-        screenNavigator = ScreenNavigator(this)
-        mainUseCase = appCompositionRoot.main(compositeDisposable)
+        screenNavigator = compositionRoot.screenNavigator
+        mainUseCase = compositionRoot.main(compositeDisposable)
 
     }
 

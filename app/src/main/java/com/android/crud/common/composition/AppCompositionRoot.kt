@@ -19,20 +19,8 @@ import java.util.concurrent.TimeUnit
 class AppCompositionRoot {
 
 
-    private val restApi:RestApi by lazy {
+    val restApi:RestApi by lazy {
         retrofit.create(RestApi::class.java)
-    }
-
-    fun main(compositeDisposable: CompositeDisposable): MainUseCase {
-        return MainUseCase(compositeDisposable, restApi)
-    }
-
-    fun form(compositeDisposable: CompositeDisposable): FormKaryawanUserCase {
-        return FormKaryawanUserCase(compositeDisposable, restApi)
-    }
-
-    fun details(compositeDisposable: CompositeDisposable): DetailsUseCase {
-        return DetailsUseCase(compositeDisposable, restApi)
     }
 
     private fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
