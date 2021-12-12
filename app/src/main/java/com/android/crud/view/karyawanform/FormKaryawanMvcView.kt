@@ -2,12 +2,11 @@ package com.android.crud.view.karyawanform
 
 import android.view.LayoutInflater
 import com.android.crud.databinding.ActivityFormKaryawanBinding
-import com.android.crud.dialog.FieldKosongDialogFragment
-import com.android.crud.view.common.BaseViewMvc
+import com.android.crud.view.common.viewmvc.BaseViewMvc
 
 class FormKaryawanMvcView(
     private val layoutInflater: LayoutInflater,
-):BaseViewMvc<FormKaryawanMvcView.Listener,ActivityFormKaryawanBinding>(
+): BaseViewMvc<FormKaryawanMvcView.Listener, ActivityFormKaryawanBinding>(
     layoutInflater
 ) {
 

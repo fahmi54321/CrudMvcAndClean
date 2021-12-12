@@ -7,7 +7,7 @@ import com.android.crud.adapter.KaryawanAdapter
 import com.android.crud.databinding.ActivityMainBinding
 import com.android.crud.model.DataItem
 import com.android.crud.model.ResponseKaryawan
-import com.android.crud.view.common.BaseViewMvc
+import com.android.crud.view.common.viewmvc.BaseViewMvc
 
 class MainActivityViewMvc(
     layoutInflater: LayoutInflater

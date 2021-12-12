@@ -26,7 +26,7 @@ class MainActivity() : BaseActivity(), MainActivityViewMvc.Listener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewMvc = MainActivityViewMvc(LayoutInflater.from(this))
+        viewMvc = compositionRoot.viewMvcFactory.newMainActivityViewMvc()
         setContentView(viewMvc.binding.root)
 
         compositeDisposable = compositionRoot.compositeDisposable

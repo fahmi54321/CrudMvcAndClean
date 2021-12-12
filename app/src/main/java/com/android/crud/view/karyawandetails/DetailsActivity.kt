@@ -23,7 +23,7 @@ class DetailsActivity : BaseActivity(), DetailsViewMvc.Listener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewMvc = DetailsViewMvc(LayoutInflater.from(this))
+        viewMvc = compositionRoot.viewMvcFactory.newDetailsMvc()
         setContentView(viewMvc.binding.root)
 
         compositeDisposable = CompositeDisposable()

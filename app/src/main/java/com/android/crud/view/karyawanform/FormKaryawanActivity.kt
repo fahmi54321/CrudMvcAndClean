@@ -36,7 +36,7 @@ class FormKaryawanActivity : BaseActivity(), FormKaryawanMvcView.Listener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewMvc = FormKaryawanMvcView(LayoutInflater.from(this))
+        viewMvc = compositionRoot.viewMvcFactory.newFormKaryawanMvc()
         setContentView(viewMvc.binding.root)
 
         compositeDisposable = CompositeDisposable()

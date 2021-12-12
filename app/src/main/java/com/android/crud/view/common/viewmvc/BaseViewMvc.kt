@@ -1,9 +1,8 @@
-package com.android.crud.view.common
+package com.android.crud.view.common.viewmvc
 
 import android.content.Context
 import android.view.LayoutInflater
 import androidx.viewbinding.ViewBinding
-import com.android.crud.databinding.ActivityMainBinding
 
 open abstract class BaseViewMvc<LISTENER_TYPE, VB:ViewBinding>(
     private val layoutInflater: LayoutInflater,

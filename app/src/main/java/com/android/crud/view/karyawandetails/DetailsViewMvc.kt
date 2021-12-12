@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import com.android.crud.databinding.ActivityDetailsBinding
 import com.android.crud.model.DataItem
-import com.android.crud.view.common.BaseViewMvc
+import com.android.crud.view.common.viewmvc.BaseViewMvc
 
 class DetailsViewMvc(
     private val layoutInflater: LayoutInflater
-):BaseViewMvc<DetailsViewMvc.Listener,ActivityDetailsBinding>(
+): BaseViewMvc<DetailsViewMvc.Listener, ActivityDetailsBinding>(
     layoutInflater
 ) {
 
