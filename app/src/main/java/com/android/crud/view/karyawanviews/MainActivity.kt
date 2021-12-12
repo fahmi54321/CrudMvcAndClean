@@ -29,10 +29,10 @@ class MainActivity() : BaseActivity(), MainActivityViewMvc.Listener {
         viewMvc = MainActivityViewMvc(LayoutInflater.from(this))
         setContentView(viewMvc.binding.root)
 
-        compositeDisposable = CompositeDisposable()
-        dialogsNavigator = DialogsNavigator(supportFragmentManager)
+        compositeDisposable = compositionRoot.compositeDisposable
+        dialogsNavigator = compositionRoot.dialogsNavigator
         screenNavigator = compositionRoot.screenNavigator
-        mainUseCase = compositionRoot.main(compositeDisposable)
+        mainUseCase = compositionRoot.mainUseCase
 
     }
 

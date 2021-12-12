@@ -40,9 +40,9 @@ class FormKaryawanActivity : BaseActivity(), FormKaryawanMvcView.Listener {
         setContentView(viewMvc.binding.root)
 
         compositeDisposable = CompositeDisposable()
-        dialogsNavigator = DialogsNavigator(supportFragmentManager)
+        dialogsNavigator = compositionRoot.dialogsNavigator
         screenNavigator = compositionRoot.screenNavigator
-        formKaryawanUserCase = compositionRoot.form(compositeDisposable)
+        formKaryawanUserCase = compositionRoot.formKaryawanUserCase
 
     }
 
