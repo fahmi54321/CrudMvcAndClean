@@ -26,7 +26,7 @@ class DetailsActivity : BaseActivity(), DetailsViewMvc.Listener {
         viewMvc = compositionRoot.viewMvcFactory.newDetailsMvc()
         setContentView(viewMvc.binding.root)
 
-        compositeDisposable = CompositeDisposable()
+        compositeDisposable = compositionRoot.compositeDisposable
         dialogsNavigator = compositionRoot.dialogsNavigator
         screenNavigator = compositionRoot.screenNavigator
         detailsUseCase = compositionRoot.detailsUseCase
