@@ -16,16 +16,10 @@ class ActivityCompositionRoot(
     private val activity: AppCompatActivity
 ) {
 
-    private val layoutInflater get() = LayoutInflater.from(activity)
-    val viewMvcFactory get() = ViewMvcFactory(layoutInflater)
-    private val fragmentManager get() = activity.supportFragmentManager
-    val dialogsNavigator get() =  DialogsNavigator(fragmentManager)
     val screenNavigator by lazy { ScreenNavigator(activity) }
-
-    private val restApi get() = appCompositionRoot.restApi
+    val layoutInflater get() = LayoutInflater.from(activity)
+    val fragmentManager get() = activity.supportFragmentManager
+    val restApi get() = appCompositionRoot.restApi
     val compositeDisposable by lazy { CompositeDisposable() }
-    val mainUseCase get() = MainUseCase(compositeDisposable,restApi)
-    val formKaryawanUserCase get() = FormKaryawanUserCase(compositeDisposable, restApi)
-    val detailsUseCase get() = DetailsUseCase(compositeDisposable, restApi)
 
 }
