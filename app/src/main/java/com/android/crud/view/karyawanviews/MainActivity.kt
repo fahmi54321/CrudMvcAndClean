@@ -2,30 +2,23 @@ package com.android.crud.view.karyawanviews
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import com.android.crud.MyApplication
-import com.android.crud.common.dependencyinjection.Service
-import com.android.crud.dialog.ServerErrorDialogFragment
-import com.android.crud.dialog.SuksesDialogFragment
 import com.android.crud.model.DataItem
 import com.android.crud.view.common.activities.BaseActivity
 import com.android.crud.view.common.dialog.DialogsNavigator
 import com.android.crud.view.common.navigator.ScreenNavigator
 import com.android.crud.view.common.viewmvc.ViewMvcFactory
-import com.android.crud.view.karyawandetails.DetailsActivity
-import com.android.crud.view.karyawanform.FormKaryawanActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import javax.inject.Inject
 
 class MainActivity() : BaseActivity(), MainActivityViewMvc.Listener {
 
     private lateinit var viewMvc: MainActivityViewMvc
-    @field:Service private lateinit var compositeDisposable: CompositeDisposable
-    @field:Service private lateinit var mainUseCase: MainUseCase
-    @field:Service private lateinit var dialogsNavigator: DialogsNavigator
-    @field:Service private lateinit var screenNavigator: ScreenNavigator
-    @field:Service private lateinit var viewMvcFactory: ViewMvcFactory
+    @Inject lateinit var compositeDisposable: CompositeDisposable
+    @Inject lateinit var mainUseCase: MainUseCase
+    @Inject lateinit var dialogsNavigator: DialogsNavigator
+    @Inject lateinit var screenNavigator: ScreenNavigator
+    @Inject lateinit var viewMvcFactory: ViewMvcFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)

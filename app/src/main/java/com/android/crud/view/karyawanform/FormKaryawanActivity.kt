@@ -2,40 +2,22 @@ package com.android.crud.view.karyawanform
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import com.android.crud.BuildConfig
-import com.android.crud.MyApplication
-import com.android.crud.common.dependencyinjection.Service
-import com.android.crud.constant.Constants
-import com.android.crud.databinding.ActivityFormKaryawanBinding
-import com.android.crud.dialog.FieldKosongDialogFragment
-import com.android.crud.dialog.ServerErrorDialogFragment
-import com.android.crud.dialog.SuksesDialogFragment
-import com.android.crud.network.RestApi
 import com.android.crud.view.common.activities.BaseActivity
 import com.android.crud.view.common.dialog.DialogsNavigator
 import com.android.crud.view.common.navigator.ScreenNavigator
 import com.android.crud.view.common.viewmvc.ViewMvcFactory
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class FormKaryawanActivity : BaseActivity(), FormKaryawanMvcView.Listener {
 
     private lateinit var viewMvc: FormKaryawanMvcView
-    @field:Service lateinit var compositeDisposable: CompositeDisposable
-    @field:Service private lateinit var formKaryawanUserCase: FormKaryawanUserCase
-    @field:Service private lateinit var dialogsNavigator: DialogsNavigator
-    @field:Service private lateinit var screenNavigator: ScreenNavigator
-    @field:Service private lateinit var viewMvcFactory: ViewMvcFactory
+    @Inject lateinit var compositeDisposable: CompositeDisposable
+    @Inject lateinit var formKaryawanUserCase: FormKaryawanUserCase
+    @Inject lateinit var dialogsNavigator: DialogsNavigator
+    @Inject lateinit var screenNavigator: ScreenNavigator
+    @Inject lateinit var viewMvcFactory: ViewMvcFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)

@@ -2,27 +2,23 @@ package com.android.crud.view.karyawandetails
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import com.android.crud.MyApplication
-import com.android.crud.common.dependencyinjection.Service
-import com.android.crud.dialog.ServerErrorDialogFragment
 import com.android.crud.view.common.activities.BaseActivity
 import com.android.crud.view.common.dialog.DialogsNavigator
 import com.android.crud.view.common.navigator.ScreenNavigator
 import com.android.crud.view.common.viewmvc.ViewMvcFactory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import javax.inject.Inject
 
 class DetailsActivity : BaseActivity(), DetailsViewMvc.Listener {
 
     private lateinit var id: String
     private lateinit var viewMvc: DetailsViewMvc
-    @field:Service lateinit var compositeDisposable: CompositeDisposable
-    @field:Service private lateinit var detailsUseCase: DetailsUseCase
-    @field:Service private lateinit var dialogsNavigator: DialogsNavigator
-    @field:Service private lateinit var screenNavigator: ScreenNavigator
-    @field:Service private lateinit var viewMvcFactory: ViewMvcFactory
+    @Inject lateinit var compositeDisposable: CompositeDisposable
+    @Inject lateinit var detailsUseCase: DetailsUseCase
+    @Inject lateinit var dialogsNavigator: DialogsNavigator
+    @Inject lateinit var screenNavigator: ScreenNavigator
+    @Inject lateinit var viewMvcFactory: ViewMvcFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)
