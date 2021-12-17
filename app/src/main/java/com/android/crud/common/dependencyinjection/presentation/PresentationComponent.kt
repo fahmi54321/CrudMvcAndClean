@@ -5,9 +5,10 @@ import com.android.crud.view.karyawandetails.DetailsActivity
 import com.android.crud.view.karyawanform.FormKaryawanActivity
 import com.android.crud.view.karyawanviews.MainActivity
 import dagger.Component
+import dagger.Subcomponent
 
 @PresentationScope
-@Component(dependencies = [ActivityComponent::class], modules = [PresentationModule::class])
+@Subcomponent(modules = [PresentationModule::class])
 interface PresentationComponent {
 
     fun inject(mainActivity: MainActivity)

@@ -5,26 +5,19 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.android.crud.common.dependencyinjection.app.AppComponent
+import com.android.crud.common.dependencyinjection.presentation.PresentationComponent
+import com.android.crud.common.dependencyinjection.presentation.PresentationModule
 import com.android.crud.network.RestApi
 import com.android.crud.view.common.navigator.ScreenNavigator
 import dagger.Component
 import dagger.Provides
+import dagger.Subcomponent
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 @ActivityScope
-@Component(dependencies = [AppComponent::class],modules = [ActivityModule::class])
+@Subcomponent(modules = [ActivityModule::class])
 interface ActivityComponent {
 
-    fun screenNavigator(): ScreenNavigator
-
-    fun compositeDisposable(): CompositeDisposable
-
-    fun activity(): AppCompatActivity
-
-    fun restApi(): RestApi
-
-    fun layoutInflater(): LayoutInflater
-
-    fun fragmentManager(): FragmentManager
+    fun newPresentationComponent(presentationModule: PresentationModule):PresentationComponent
 
 }
