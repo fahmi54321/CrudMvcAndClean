@@ -13,13 +13,15 @@ open class BaseActivity : AppCompatActivity() {
 
     private val activityComponent by lazy {
         DaggerActivityComponent.builder()
-            .activityModule(ActivityModule(appComponent,this))
+            .appComponent(appComponent)
+            .activityModule(ActivityModule(this))
             .build()
     }
 
     private val presentationComponent by lazy {
         DaggerPresentationComponent.builder()
-            .presentationModule(PresentationModule(activityComponent))
+            .activityComponent(activityComponent)
+            .presentationModule(PresentationModule())
             .build()
     }
 

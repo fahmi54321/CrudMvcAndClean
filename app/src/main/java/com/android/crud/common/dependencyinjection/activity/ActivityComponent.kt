@@ -4,6 +4,7 @@ import android.app.Application
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import com.android.crud.common.dependencyinjection.app.AppComponent
 import com.android.crud.network.RestApi
 import com.android.crud.view.common.navigator.ScreenNavigator
 import dagger.Component
@@ -11,7 +12,7 @@ import dagger.Provides
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 @ActivityScope
-@Component(modules = [ActivityModule::class])
+@Component(dependencies = [AppComponent::class],modules = [ActivityModule::class])
 interface ActivityComponent {
 
     fun screenNavigator(): ScreenNavigator

@@ -11,15 +11,8 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 @Module
 class ActivityModule(
-    private val appComponent: AppComponent,
     private val activity: AppCompatActivity
 ) {
-
-    @Provides
-    fun application() = appComponent.application()
-
-    @Provides
-    fun restApi() = appComponent.restApi()
 
     @Provides
     fun activity() = activity
@@ -37,6 +30,5 @@ class ActivityModule(
     @ActivityScope
     @Provides
     fun compositeDisposable() = CompositeDisposable()
-
 
 }
