@@ -10,26 +10,24 @@ import com.android.crud.dialog.ServerErrorDialogFragment
 import com.android.crud.view.common.activities.BaseActivity
 import com.android.crud.view.common.dialog.DialogsNavigator
 import com.android.crud.view.common.navigator.ScreenNavigator
+import com.android.crud.view.common.viewmvc.ViewMvcFactory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class DetailsActivity : BaseActivity(), DetailsViewMvc.Listener {
 
-    private lateinit var compositeDisposable: CompositeDisposable
+    lateinit var compositeDisposable: CompositeDisposable
     private lateinit var id: String
     private lateinit var viewMvc: DetailsViewMvc
-    private lateinit var detailsUseCase: DetailsUseCase
-    private lateinit var dialogsNavigator: DialogsNavigator
-    private lateinit var screenNavigator: ScreenNavigator
+    lateinit var detailsUseCase: DetailsUseCase
+    lateinit var dialogsNavigator: DialogsNavigator
+    lateinit var screenNavigator: ScreenNavigator
+    lateinit var viewMvcFactory: ViewMvcFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        injector.inject(this)
         super.onCreate(savedInstanceState)
-        viewMvc = compositionRoot.viewMvcFactory.newDetailsMvc()
+        viewMvc = viewMvcFactory.newDetailsMvc()
         setContentView(viewMvc.binding.root)
-
-        compositeDisposable = compositionRoot.compositeDisposable
-        dialogsNavigator = compositionRoot.dialogsNavigator
-        screenNavigator = compositionRoot.screenNavigator
-        detailsUseCase = compositionRoot.detailsUseCase
 
         id = intent.getStringExtra(EXTRA_ID)!!
     }

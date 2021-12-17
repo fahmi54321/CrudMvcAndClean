@@ -27,13 +27,10 @@ class MainActivity() : BaseActivity(), MainActivityViewMvc.Listener {
     lateinit var viewMvcFactory: ViewMvcFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         injector.inject(this)
-
         super.onCreate(savedInstanceState)
         viewMvc = viewMvcFactory.newMainActivityViewMvc()
         setContentView(viewMvc.binding.root)
-
     }
 
     override fun onStart() {

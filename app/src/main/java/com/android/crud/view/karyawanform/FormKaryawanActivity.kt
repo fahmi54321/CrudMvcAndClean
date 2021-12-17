@@ -16,6 +16,7 @@ import com.android.crud.network.RestApi
 import com.android.crud.view.common.activities.BaseActivity
 import com.android.crud.view.common.dialog.DialogsNavigator
 import com.android.crud.view.common.navigator.ScreenNavigator
+import com.android.crud.view.common.viewmvc.ViewMvcFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -28,22 +29,18 @@ import java.util.concurrent.TimeUnit
 
 class FormKaryawanActivity : BaseActivity(), FormKaryawanMvcView.Listener {
 
-    private lateinit var compositeDisposable: CompositeDisposable
+    lateinit var compositeDisposable: CompositeDisposable
     private lateinit var viewMvc: FormKaryawanMvcView
-    private lateinit var formKaryawanUserCase: FormKaryawanUserCase
-    private lateinit var dialogsNavigator: DialogsNavigator
-    private lateinit var screenNavigator: ScreenNavigator
+    lateinit var formKaryawanUserCase: FormKaryawanUserCase
+    lateinit var dialogsNavigator: DialogsNavigator
+    lateinit var screenNavigator: ScreenNavigator
+    lateinit var viewMvcFactory: ViewMvcFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        injector.inject(this)
         super.onCreate(savedInstanceState)
-        viewMvc = compositionRoot.viewMvcFactory.newFormKaryawanMvc()
+        viewMvc = viewMvcFactory.newFormKaryawanMvc()
         setContentView(viewMvc.binding.root)
-
-        compositeDisposable = compositionRoot.compositeDisposable
-        dialogsNavigator = compositionRoot.dialogsNavigator
-        screenNavigator = compositionRoot.screenNavigator
-        formKaryawanUserCase = compositionRoot.formKaryawanUserCase
-
     }
 
     private fun dialogFieldKosong(item: String) {
