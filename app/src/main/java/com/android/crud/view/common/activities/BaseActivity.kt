@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.crud.MyApplication
 import com.android.crud.common.dependencyinjection.activity.ActivityModule
 import com.android.crud.common.dependencyinjection.presentation.PresentationModule
+import com.android.crud.common.dependencyinjection.presentation.UseCaseModule
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -14,7 +15,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     private val presentationComponent by lazy {
-        activityComponent.newPresentationComponent(PresentationModule())
+        activityComponent.newPresentationComponent(PresentationModule(), UseCaseModule())
     }
 
     protected val injector get() = presentationComponent

@@ -16,12 +16,24 @@ import dagger.Provides
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 @Module
-class PresentationModule() {
+class UseCaseModule() {
 
     @Provides
-    fun viewMvcFactory(layoutInflater: LayoutInflater) = ViewMvcFactory(layoutInflater)
+    fun mainUseCase(
+        compositeDisposable: CompositeDisposable,
+        restApi: RestApi
+    ) = MainUseCase(compositeDisposable, restApi)
 
     @Provides
-    fun dialogsNavigator(fragmentManager: FragmentManager) = DialogsNavigator(fragmentManager)
+    fun formKaryawanUserCase(
+        compositeDisposable: CompositeDisposable,
+        restApi: RestApi
+    ) = FormKaryawanUserCase(compositeDisposable, restApi)
+
+    @Provides
+    fun detailsUseCase(
+        compositeDisposable: CompositeDisposable,
+        restApi: RestApi
+    ) = DetailsUseCase(compositeDisposable, restApi)
 
 }

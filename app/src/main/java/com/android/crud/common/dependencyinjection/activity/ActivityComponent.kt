@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager
 import com.android.crud.common.dependencyinjection.app.AppComponent
 import com.android.crud.common.dependencyinjection.presentation.PresentationComponent
 import com.android.crud.common.dependencyinjection.presentation.PresentationModule
+import com.android.crud.common.dependencyinjection.presentation.UseCaseModule
 import com.android.crud.network.RestApi
 import com.android.crud.view.common.navigator.ScreenNavigator
 import dagger.Component
@@ -18,6 +19,9 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 @Subcomponent(modules = [ActivityModule::class])
 interface ActivityComponent {
 
-    fun newPresentationComponent(presentationModule: PresentationModule):PresentationComponent
+    fun newPresentationComponent(
+        presentationModule: PresentationModule,
+        useCaseModule: UseCaseModule
+    ):PresentationComponent
 
 }
