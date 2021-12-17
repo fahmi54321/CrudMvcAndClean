@@ -4,8 +4,9 @@ import android.app.Application
 import com.android.crud.network.RestApi
 import dagger.Component
 import dagger.Provides
+import javax.inject.Singleton
 
-@AppScope
+@Singleton
 @Component(modules = [AppModule::class])
 interface AppComponent {
     fun application(): Application

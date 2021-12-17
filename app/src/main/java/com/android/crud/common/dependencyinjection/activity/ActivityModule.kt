@@ -8,6 +8,7 @@ import com.android.crud.view.common.navigator.ScreenNavigator
 import dagger.Module
 import dagger.Provides
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import javax.inject.Singleton
 
 @Module
 class ActivityModule(
@@ -30,11 +31,11 @@ class ActivityModule(
     @Provides
     fun fragmentManager() = activity.supportFragmentManager
 
-    @ActivityScope
+    @Singleton
     @Provides
     fun screenNavigator(activity: AppCompatActivity) = ScreenNavigator(activity)
 
-    @ActivityScope
+    @Singleton
     @Provides
     fun compositeDisposable() = CompositeDisposable()
 

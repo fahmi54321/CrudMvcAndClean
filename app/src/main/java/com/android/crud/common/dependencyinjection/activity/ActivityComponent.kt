@@ -9,8 +9,9 @@ import com.android.crud.view.common.navigator.ScreenNavigator
 import dagger.Component
 import dagger.Provides
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import javax.inject.Singleton
 
-@ActivityScope
+@Singleton
 @Component(modules = [ActivityModule::class])
 interface ActivityComponent {
 
