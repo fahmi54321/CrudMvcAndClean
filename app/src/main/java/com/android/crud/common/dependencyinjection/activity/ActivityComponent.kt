@@ -10,6 +10,7 @@ import dagger.Component
 import dagger.Provides
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
+@ActivityScope
 @Component(modules = [ActivityModule::class])
 interface ActivityComponent {
 

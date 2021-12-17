@@ -19,10 +19,6 @@ class AppModule(
     val application: Application
 ) {
 
-    val restApi:RestApi by lazy {
-        retrofit.create(RestApi::class.java)
-    }
-
     private fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
             level = when (BuildConfig.DEBUG) {
@@ -40,10 +36,14 @@ class AppModule(
             addInterceptor(provideHttpLoggingInterceptor())
         }.build()
     }
-    private val retrofit : Retrofit by lazy {
+
+
+    @AppScope
+    @Provides
+    fun retrofit() : Retrofit {
         var constant: Constants? = null
         constant = Constants()
-        Retrofit.Builder().apply {
+        return Retrofit.Builder().apply {
             client(provideHttpClient())
             baseUrl(constant.URL)
             addConverterFactory(GsonConverterFactory.create())
@@ -54,7 +54,8 @@ class AppModule(
     @Provides
     fun application() = application
 
+    @AppScope
     @Provides
-    fun restApi() = restApi
+    fun restApi(retrofit: Retrofit) = retrofit.create(RestApi::class.java)
 
 }

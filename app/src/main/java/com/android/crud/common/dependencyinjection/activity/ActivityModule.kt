@@ -15,9 +15,6 @@ class ActivityModule(
     private val activity: AppCompatActivity
 ) {
 
-    val screenNavigator by lazy { ScreenNavigator(activity) }
-    val compositeDisposable by lazy { CompositeDisposable() }
-
     @Provides
     fun application() = appComponent.application()
 
@@ -33,11 +30,13 @@ class ActivityModule(
     @Provides
     fun fragmentManager() = activity.supportFragmentManager
 
+    @ActivityScope
     @Provides
-    fun screenNavigator(activity: AppCompatActivity) = screenNavigator
+    fun screenNavigator(activity: AppCompatActivity) = ScreenNavigator(activity)
 
+    @ActivityScope
     @Provides
-    fun compositeDisposable() = compositeDisposable
+    fun compositeDisposable() = CompositeDisposable()
 
 
 }
