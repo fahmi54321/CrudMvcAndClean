@@ -1,12 +1,10 @@
-package com.android.crud.common.composition
+package com.android.crud.common.dependencyinjection
 
 import com.android.crud.view.common.dialog.DialogsNavigator
-import com.android.crud.view.common.navigator.ScreenNavigator
 import com.android.crud.view.common.viewmvc.ViewMvcFactory
 import com.android.crud.view.karyawandetails.DetailsUseCase
 import com.android.crud.view.karyawanform.FormKaryawanUserCase
 import com.android.crud.view.karyawanviews.MainUseCase
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class PresentationCompositionRoot(
     private val activityCompositionRoot: ActivityCompositionRoot

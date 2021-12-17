@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import com.android.crud.BuildConfig
 import com.android.crud.MyApplication
+import com.android.crud.common.dependencyinjection.Service
 import com.android.crud.constant.Constants
 import com.android.crud.databinding.ActivityFormKaryawanBinding
 import com.android.crud.dialog.FieldKosongDialogFragment
@@ -29,12 +30,12 @@ import java.util.concurrent.TimeUnit
 
 class FormKaryawanActivity : BaseActivity(), FormKaryawanMvcView.Listener {
 
-    lateinit var compositeDisposable: CompositeDisposable
     private lateinit var viewMvc: FormKaryawanMvcView
-    lateinit var formKaryawanUserCase: FormKaryawanUserCase
-    lateinit var dialogsNavigator: DialogsNavigator
-    lateinit var screenNavigator: ScreenNavigator
-    lateinit var viewMvcFactory: ViewMvcFactory
+    @field:Service lateinit var compositeDisposable: CompositeDisposable
+    @field:Service private lateinit var formKaryawanUserCase: FormKaryawanUserCase
+    @field:Service private lateinit var dialogsNavigator: DialogsNavigator
+    @field:Service private lateinit var screenNavigator: ScreenNavigator
+    @field:Service private lateinit var viewMvcFactory: ViewMvcFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)

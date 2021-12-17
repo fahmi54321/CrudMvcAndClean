@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import com.android.crud.MyApplication
+import com.android.crud.common.dependencyinjection.Service
 import com.android.crud.dialog.ServerErrorDialogFragment
 import com.android.crud.view.common.activities.BaseActivity
 import com.android.crud.view.common.dialog.DialogsNavigator
@@ -15,13 +16,13 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class DetailsActivity : BaseActivity(), DetailsViewMvc.Listener {
 
-    lateinit var compositeDisposable: CompositeDisposable
     private lateinit var id: String
     private lateinit var viewMvc: DetailsViewMvc
-    lateinit var detailsUseCase: DetailsUseCase
-    lateinit var dialogsNavigator: DialogsNavigator
-    lateinit var screenNavigator: ScreenNavigator
-    lateinit var viewMvcFactory: ViewMvcFactory
+    @field:Service lateinit var compositeDisposable: CompositeDisposable
+    @field:Service private lateinit var detailsUseCase: DetailsUseCase
+    @field:Service private lateinit var dialogsNavigator: DialogsNavigator
+    @field:Service private lateinit var screenNavigator: ScreenNavigator
+    @field:Service private lateinit var viewMvcFactory: ViewMvcFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)

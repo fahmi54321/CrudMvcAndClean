@@ -1,14 +1,8 @@
-package com.android.crud.common.composition
+package com.android.crud.common.dependencyinjection
 
-import android.app.Activity
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import com.android.crud.view.common.dialog.DialogsNavigator
 import com.android.crud.view.common.navigator.ScreenNavigator
-import com.android.crud.view.common.viewmvc.ViewMvcFactory
-import com.android.crud.view.karyawandetails.DetailsUseCase
-import com.android.crud.view.karyawanform.FormKaryawanUserCase
-import com.android.crud.view.karyawanviews.MainUseCase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class ActivityCompositionRoot(

@@ -1,13 +1,9 @@
-package com.android.crud.common.composition
+package com.android.crud.common.dependencyinjection
 
 import androidx.annotation.UiThread
 import com.android.crud.BuildConfig
 import com.android.crud.constant.Constants
 import com.android.crud.network.RestApi
-import com.android.crud.view.karyawandetails.DetailsUseCase
-import com.android.crud.view.karyawanform.FormKaryawanUserCase
-import com.android.crud.view.karyawanviews.MainUseCase
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

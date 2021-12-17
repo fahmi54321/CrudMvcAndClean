@@ -2,9 +2,9 @@ package com.android.crud.view.common.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import com.android.crud.MyApplication
-import com.android.crud.common.composition.ActivityCompositionRoot
-import com.android.crud.common.composition.Injector
-import com.android.crud.common.composition.PresentationCompositionRoot
+import com.android.crud.common.dependencyinjection.ActivityCompositionRoot
+import com.android.crud.common.dependencyinjection.Injector
+import com.android.crud.common.dependencyinjection.PresentationCompositionRoot
 
 open class BaseActivity : AppCompatActivity() {
 
