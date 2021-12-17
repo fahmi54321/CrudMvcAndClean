@@ -1,9 +1,12 @@
-package com.android.crud.common.dependencyinjection
+package com.android.crud.common.dependencyinjection.app
 
+import android.app.Application
 import androidx.annotation.UiThread
 import com.android.crud.BuildConfig
 import com.android.crud.constant.Constants
 import com.android.crud.network.RestApi
+import dagger.Module
+import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -11,9 +14,10 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-@UiThread
-class AppCompositionRoot {
-
+@Module
+class AppModule(
+    val application: Application
+) {
 
     val restApi:RestApi by lazy {
         retrofit.create(RestApi::class.java)
@@ -27,7 +31,6 @@ class AppCompositionRoot {
             }
         }
     }
-
     private fun provideHttpClient(): OkHttpClient {
         return OkHttpClient.Builder().apply {
             retryOnConnectionFailure(true)
@@ -37,8 +40,6 @@ class AppCompositionRoot {
             addInterceptor(provideHttpLoggingInterceptor())
         }.build()
     }
-
-
     private val retrofit : Retrofit by lazy {
         var constant: Constants? = null
         constant = Constants()
@@ -49,5 +50,11 @@ class AppCompositionRoot {
             addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         }.build()
     }
+
+    @Provides
+    fun application() = application
+
+    @Provides
+    fun restApi() = restApi
 
 }

@@ -1,19 +1,18 @@
 package com.android.crud.common.dependencyinjection
 
+import com.android.crud.common.dependencyinjection.presentation.PresentationComponent
+import com.android.crud.common.dependencyinjection.presentation.PresentationModule
 import com.android.crud.view.common.dialog.DialogsNavigator
 import com.android.crud.view.common.navigator.ScreenNavigator
 import com.android.crud.view.common.viewmvc.ViewMvcFactory
-import com.android.crud.view.karyawandetails.DetailsActivity
 import com.android.crud.view.karyawandetails.DetailsUseCase
-import com.android.crud.view.karyawanform.FormKaryawanActivity
 import com.android.crud.view.karyawanform.FormKaryawanUserCase
-import com.android.crud.view.karyawanviews.MainActivity
 import com.android.crud.view.karyawanviews.MainUseCase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import java.lang.reflect.Field
 
 class Injector(
-    private val compositionRoot: PresentationCompositionRoot
+    private val component: PresentationComponent
 ) {
     fun inject(client: Any) {
         for (field in getAllFields(client)) {
@@ -48,25 +47,25 @@ class Injector(
     private fun getServiceForClass(type: Class<*>): Any {
         when (type) {
             ScreenNavigator::class.java -> {
-                return compositionRoot.screenNavigator
+                return component.screenNavigator()
             }
             DialogsNavigator::class.java -> {
-                return compositionRoot.dialogsNavigator
+                return component.dialogsNavigator()
             }
             MainUseCase::class.java -> {
-                return compositionRoot.mainUseCase
+                return component.mainUseCase()
             }
             DetailsUseCase::class.java -> {
-                return compositionRoot.detailsUseCase
+                return component.detailsUseCase()
             }
             FormKaryawanUserCase::class.java -> {
-                return compositionRoot.formKaryawanUserCase
+                return component.formKaryawanUserCase()
             }
             ViewMvcFactory::class.java -> {
-                return compositionRoot.viewMvcFactory
+                return component.viewMvcFactory()
             }
             CompositeDisposable::class.java -> {
-                return compositionRoot.compositeDisposable
+                return component.compositeDisposable()
             }
             else -> {
                 throw Exception("unsupported service type: $type")

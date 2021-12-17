@@ -2,22 +2,28 @@ package com.android.crud.view.common.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import com.android.crud.MyApplication
-import com.android.crud.common.dependencyinjection.ActivityCompositionRoot
+import com.android.crud.common.dependencyinjection.activity.ActivityModule
 import com.android.crud.common.dependencyinjection.Injector
-import com.android.crud.common.dependencyinjection.PresentationCompositionRoot
+import com.android.crud.common.dependencyinjection.activity.DaggerActivityComponent
+import com.android.crud.common.dependencyinjection.presentation.DaggerPresentationComponent
+import com.android.crud.common.dependencyinjection.presentation.PresentationModule
 
 open class BaseActivity : AppCompatActivity() {
 
-    val appCompositionRoot get() = (application as MyApplication).appCompositionRoot
+    val appComponent get() = (application as MyApplication).appComponent
 
-    val activityCompositionRoot by lazy {
-        ActivityCompositionRoot(appCompositionRoot, this)
+    private val activityComponent by lazy {
+        DaggerActivityComponent.builder()
+            .activityModule(ActivityModule(appComponent,this))
+            .build()
     }
 
-    protected val compositionRoot by lazy {
-        PresentationCompositionRoot(activityCompositionRoot)
+    private val presentationComponent by lazy {
+        DaggerPresentationComponent.builder()
+            .presentationModule(PresentationModule(activityComponent))
+            .build()
     }
 
-    protected val injector get() = Injector(compositionRoot)
+    protected val injector get() = Injector(presentationComponent)
 
 }
