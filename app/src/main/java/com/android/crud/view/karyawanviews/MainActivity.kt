@@ -12,6 +12,7 @@ import com.android.crud.model.DataItem
 import com.android.crud.view.common.activities.BaseActivity
 import com.android.crud.view.common.dialog.DialogsNavigator
 import com.android.crud.view.common.navigator.ScreenNavigator
+import com.android.crud.view.common.viewmvc.ViewMvcFactory
 import com.android.crud.view.karyawandetails.DetailsActivity
 import com.android.crud.view.karyawanform.FormKaryawanActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -19,20 +20,19 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 class MainActivity() : BaseActivity(), MainActivityViewMvc.Listener {
 
     private lateinit var viewMvc: MainActivityViewMvc
-    private lateinit var compositeDisposable: CompositeDisposable
-    private lateinit var mainUseCase: MainUseCase
-    private lateinit var dialogsNavigator: DialogsNavigator
-    private lateinit var screenNavigator: ScreenNavigator
+    lateinit var compositeDisposable: CompositeDisposable
+    lateinit var mainUseCase: MainUseCase
+    lateinit var dialogsNavigator: DialogsNavigator
+    lateinit var screenNavigator: ScreenNavigator
+    lateinit var viewMvcFactory: ViewMvcFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewMvc = compositionRoot.viewMvcFactory.newMainActivityViewMvc()
-        setContentView(viewMvc.binding.root)
 
-        compositeDisposable = compositionRoot.compositeDisposable
-        dialogsNavigator = compositionRoot.dialogsNavigator
-        screenNavigator = compositionRoot.screenNavigator
-        mainUseCase = compositionRoot.mainUseCase
+        injector.inject(this)
+
+        super.onCreate(savedInstanceState)
+        viewMvc = viewMvcFactory.newMainActivityViewMvc()
+        setContentView(viewMvc.binding.root)
 
     }
 
